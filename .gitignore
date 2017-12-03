@@ -12,6 +12,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+env/
 build/
 develop-eggs/
 dist/
@@ -47,6 +48,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
+*,cover
 .hypothesis/
 
 # Translations
@@ -103,6 +105,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.cache/
 
 ### Windows ###
 # Windows thumbnail cache files
