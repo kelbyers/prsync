@@ -6,11 +6,11 @@ import click
 
 
 @click.command()
-def main(args=None):
+@click.argument('src')
+@click.argument('dst')
+def main(src, dst):
     """Console script for prsync."""
-    click.echo("Replace this message by putting your code into "
-               "prsync.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
+    click.echo("src = {0} dst = {1}".format(src, dst))
 
 
 if __name__ == "__main__":
