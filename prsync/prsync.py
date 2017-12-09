@@ -4,6 +4,9 @@
 
 import os.path
 
+from prsync.exceptions import PrsyncSourceError
+
+
 class Prsync:
     source = None
 
@@ -21,4 +24,7 @@ class Prsync:
         pass
 
     def validate_source(self):
-        os.path.exists(self.source)
+        if not os.path.exists(self.source):
+            raise PrsyncSourceError(
+                'Source does not exist: {}'.format(self.source)
+            )
