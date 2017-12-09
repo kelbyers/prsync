@@ -3,6 +3,8 @@
 
 """Tests for `prsync` package."""
 
+from unittest.mock import MagicMock, patch
+
 import pytest
 
 from click.testing import CliRunner
@@ -22,10 +24,15 @@ from prsync import cli
 #     assert '--help  Show this message and exit.' in help_result.output
 
 class TestPrsync:
-    def test_command_basic(self):
-        src = 'a'
-        dst = 'b'
+    @patch('prsync.cli.Prsync')
+    def test_command_basic(self, m_Prsync):
+        src = MagicMock()
+        dst = MagicMock()
+        prsync = m_Prsync.return_value
         runner = CliRunner()
         result = runner.invoke(cli.main, [src, dst])
         assert result.output.strip() == 'src = {0} dst = {1}'.format(src, dst)
         assert result.exit_code == 0
+
+        m_Prsync.assert_called_with(src=src, dst=dst)
+        prsync.run.assert_called_with()

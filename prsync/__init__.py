@@ -5,3 +5,5 @@
 __author__ = """Kel Byers"""
 __email__ = 'ruferto@gmail.com'
 __version__ = '0.1.0'
+
+from prsync.prsync import Prsync
