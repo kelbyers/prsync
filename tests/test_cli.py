@@ -23,7 +23,7 @@ from prsync import cli
 #     assert help_result.exit_code == 0
 #     assert '--help  Show this message and exit.' in help_result.output
 
-class TestPrsync:
+class TestPrsyncCli:
     @patch('prsync.cli.Prsync')
     def test_command_basic(self, m_Prsync):
         src = MagicMock()
@@ -31,7 +31,7 @@ class TestPrsync:
         prsync = m_Prsync.return_value
         runner = CliRunner()
         result = runner.invoke(cli.main, [src, dst])
-        assert result.output.strip() == 'src = {0} dst = {1}'.format(src, dst)
+        assert 'src = {0} dst = {1}'.format(src, dst) in result.output
         assert result.exit_code == 0
 
         m_Prsync.assert_called_with(src=src, dst=dst)
