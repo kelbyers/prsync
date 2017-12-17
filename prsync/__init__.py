@@ -8,3 +8,4 @@ __version__ = '0.1.0'
 
 from prsync.exceptions import PrsyncSourceError
 from prsync.prsync import Prsync
+from prsync.prsource import PrSource
