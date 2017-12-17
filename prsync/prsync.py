@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
+
 """Main module."""
 
-import os.path
 
-from prsync.exceptions import PrsyncSourceError
+from prsync import PrSource
 
 
 class Prsync:
@@ -15,16 +15,10 @@ class Prsync:
         self.init_destination(dst)
 
     def run(self):
-        self.validate_source()
+        self.source.validate()
 
     def init_source(self, source):
-        self.source = source
+        self.source = PrSource(source)
 
     def init_destination(self, destination):
         pass
-
-    def validate_source(self):
-        if not os.path.exists(self.source):
-            raise PrsyncSourceError(
-                'Source does not exist: {}'.format(self.source)
-            )
