@@ -17,7 +17,7 @@ class TestPrSource:
         from prsync import PrSource
 
         source_file = MagicMock()
-        pr_source = PrSource(source_file)
+        PrSource(source_file)
 
     @patch('os.path')
     def test_validate(self, m_os_path, pr_source_setup):

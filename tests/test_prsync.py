@@ -29,7 +29,7 @@ class TestPrsync:
         from prsync import Prsync
         src = MagicMock()
         dst = MagicMock()
-        prsync = Prsync(src=src, dst=dst)
+        Prsync(src=src, dst=dst)
         m_init_source.assert_called_with(src)
         m_init_destination.assert_called_with(dst)
 

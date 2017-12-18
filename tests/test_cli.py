@@ -5,11 +5,8 @@
 
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from click.testing import CliRunner
 
-from prsync import prsync
 from prsync import cli
 
 
