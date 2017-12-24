@@ -1,5 +1,4 @@
-import os.path
-from prsync import PrsyncSourceError, PrFile
+from prsync import PrFile
 
 
 class PrSource(PrFile):
@@ -7,7 +6,3 @@ class PrSource(PrFile):
     @property
     def source(self):
         return self.path
-
-    # def validate(self):
-    #     if not os.path.exists(self.source):
-    #         raise PrsyncSourceError()

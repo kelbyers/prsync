@@ -3,6 +3,7 @@
 import os.path
 from prsync import PrsyncSourceError
 
+
 class PrFile:
     path = None
 
@@ -13,3 +14,5 @@ class PrFile:
         if not os.path.exists(self.path):
             raise PrsyncSourceError(
                 'Path does not exist: {0}'.format(self.path))
+
+    def

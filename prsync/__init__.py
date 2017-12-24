@@ -11,4 +11,4 @@ from prsync.prfile import PrFile
 from prsync.prsource import PrSource
 from prsync.prsync import Prsync
 
-__all__ = ['PrsyncSourceError', 'PrSource', 'Prsync']
+__all__ = ['PrsyncSourceError', 'PrFile', 'PrSource', 'Prsync']
