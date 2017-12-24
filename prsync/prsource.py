@@ -1,8 +1,8 @@
 import os.path
-from prsync import PrsyncSourceError
+from prsync import PrsyncSourceError, PrFile
 
 
-class PrSource:
+class PrSource(PrFile):
     source = None
 
     def __init__(self, source):

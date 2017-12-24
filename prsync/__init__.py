@@ -7,6 +7,7 @@ __email__ = 'ruferto@gmail.com'
 __version__ = '0.1.0'
 
 from prsync.exceptions import PrsyncSourceError
+from prsync.prfile import PrFile
 from prsync.prsource import PrSource
 from prsync.prsync import Prsync
 
