@@ -3,11 +3,11 @@ from prsync import PrsyncSourceError, PrFile
 
 
 class PrSource(PrFile):
-    source = None
 
-    def __init__(self, source):
-        self.source = source
+    @property
+    def source(self):
+        return self.path
 
-    def validate(self):
-        if not os.path.exists(self.source):
-            raise PrsyncSourceError()
+    # def validate(self):
+    #     if not os.path.exists(self.source):
+    #         raise PrsyncSourceError()
