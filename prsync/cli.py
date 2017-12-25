@@ -4,7 +4,7 @@
 
 import click
 
-from prsync import Prsync
+from prsync import PrSync
 
 
 @click.command()
@@ -13,7 +13,7 @@ from prsync import Prsync
 def main(src: str, dst: str) -> None:
     """Console script for prsync."""
     click.echo("src = {0} dst = {1}".format(src, dst))
-    prsync = Prsync(src=src, dst=dst)
+    prsync = PrSync(src=src, dst=dst)
     prsync.run()
 
 

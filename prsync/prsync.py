@@ -4,12 +4,10 @@
 """Main module."""
 
 
-from prsync import PrSource
+from prsync.prsource import PrSource
 
 
-class Prsync:
-    source = None
-
+class PrSync:
     def __init__(self, src: str, dst: str) -> None:
         self.init_source(src)
         self.init_destination(dst)

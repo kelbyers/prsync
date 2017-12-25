@@ -1,7 +1,7 @@
 """"""
 
 import os.path
-from prsync import PrsyncSourceError
+from prsync.exceptions import PrsyncSourceError
 
 
 class PrFile:

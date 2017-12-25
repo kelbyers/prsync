@@ -1,4 +1,4 @@
-from prsync import PrFile
+from prsync.prfile import PrFile
 
 
 class PrSource(PrFile):

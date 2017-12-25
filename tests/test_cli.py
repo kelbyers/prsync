@@ -21,7 +21,7 @@ from prsync import cli
 #     assert '--help  Show this message and exit.' in help_result.output
 
 class TestPrsyncCli:
-    @patch('prsync.cli.Prsync')
+    @patch('prsync.cli.PrSync')
     def test_command_basic(self, m_Prsync):
         src = MagicMock()
         dst = MagicMock()

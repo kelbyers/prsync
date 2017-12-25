@@ -1,4 +1,4 @@
-"""Exceptions for Prsync"""
+"""Exceptions for PrSync"""
 
 
 class PrsyncSourceError(Exception):

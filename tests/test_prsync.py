@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `Prsync` class."""
+"""Tests for `PrSync` class."""
 
 from unittest.mock import MagicMock, patch
 
@@ -15,21 +15,21 @@ def file_path(request):
 
 @pytest.fixture
 def prsync_setup():
-    from prsync import Prsync
+    from prsync import PrSync
     src = MagicMock()
     dst = MagicMock()
-    prsync = Prsync(src=src, dst=dst)
+    prsync = PrSync(src=src, dst=dst)
     return (prsync, src, dst)
 
 
 class TestPrsync:
-    @patch('prsync.prsync.Prsync.init_source')
-    @patch('prsync.prsync.Prsync.init_destination')
+    @patch('prsync.prsync.PrSync.init_source')
+    @patch('prsync.prsync.PrSync.init_destination')
     def test_class(self, m_init_destination, m_init_source):
-        from prsync import Prsync
+        from prsync import PrSync
         src = MagicMock()
         dst = MagicMock()
-        Prsync(src=src, dst=dst)
+        PrSync(src=src, dst=dst)
         m_init_source.assert_called_with(src)
         m_init_destination.assert_called_with(dst)
 
