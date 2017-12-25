@@ -10,15 +10,15 @@ from prsync import PrSource
 class Prsync:
     source = None
 
-    def __init__(self, src, dst):
+    def __init__(self, src: str, dst: str) -> None:
         self.init_source(src)
         self.init_destination(dst)
 
-    def run(self):
+    def run(self) -> None:
         self.source.validate()
 
-    def init_source(self, source):
+    def init_source(self, source: str) -> None:
         self.source = PrSource(source)
 
-    def init_destination(self, destination):
+    def init_destination(self, destination: str) -> None:
         pass
