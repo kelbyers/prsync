@@ -3,6 +3,7 @@
 
 """The setup script."""
 
+import platform
 from setuptools import setup, find_packages
 
 with open('README.rst') as readme_file:
@@ -15,6 +16,9 @@ requirements = [
     'Click>=6.0',
     # TODO: put package requirements here
 ]
+# TODO: do I need this to detect block size? Do I need TO detect block size?
+if platform.system() == 'Windows':
+    requirements.append('PyMI==1.0.4')
 
 setup_requirements = [
     'pytest-runner',
