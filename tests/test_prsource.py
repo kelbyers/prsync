@@ -17,6 +17,6 @@ class TestPrSource:
         from prsync import PrSource
         from prsync import PrFile
 
-        source_file = MagicMock()
+        source_file = '/a/file/path'
         prsource = PrSource(source_file)
         assert isinstance(prsource, PrFile)

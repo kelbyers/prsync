@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def os_imports():
     from prsync import os_imports
     yield os_imports
@@ -15,12 +15,14 @@ def os_imports():
 
 
 @patch('prsync.os_imports.wmi')
-@patch('prsync.os_imports.system', return_value='Windows')
-def test_windows(m_system, m_wmi, os_imports):
+@patch('prsync.os_imports.sys')
+def test_windows(m_sys, m_wmi, os_imports):
+    m_sys.platform = 'win32'
     assert os_imports.wmi == m_wmi
 
 
 @patch('prsync.os_imports.statvfs')
-@patch('prsync.os_imports.system', return_value='Non-Windows')
-def test_non_windows(m_system, m_statvfs, os_imports):
+@patch('prsync.os_imports.sys')
+def test_non_windows(m_sys, m_statvfs, os_imports):
+    m_sys.platform = '*nix'
     assert os_imports.statvfs == m_statvfs
