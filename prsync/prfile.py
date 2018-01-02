@@ -29,3 +29,14 @@ class PrFile:
             self.block_size = volume.BlockSize
         else:
             self.block_size = os_imports.statvfs(self.path).f_bsize
+
+    def __eq__(self, other):
+        """Compare the size and timestamp of this PrFile to `other'.
+        Return: boolean
+        """
+
+        if self.stats.st_size == other.stats.st_size:
+            if self.stats.st_mtime_ns == other.stats.st_mtime_ns:
+                return True
+
+        return False
