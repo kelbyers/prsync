@@ -7,8 +7,9 @@ from prsync import os_imports
 
 
 class PrFile:
-    path = None
     block_size = None
+    path = None
+    stats = None
 
     def __init__(self, path: str) -> None:
         self.path = Path(path)
@@ -19,6 +20,7 @@ class PrFile:
 
     def validate(self) -> None:
         self.path = Path(self.path).resolve()
+        self.stats = self.path.stat()
 
     def get_block_size(self) -> None:
         if sys.platform == 'win32':

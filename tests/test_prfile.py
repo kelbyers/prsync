@@ -80,8 +80,11 @@ class TestPrFile:
     @patch('prsync.prfile.Path')
     def test_validate(self, m_Path, pr_file_class_setup):
         prfile, file_path = pr_file_class_setup
+        p_path = m_Path.return_value
+        r_path = p_path.resolve.return_value
         prfile.validate()
-        assert prfile.path == m_Path.return_value.resolve.return_value
+        assert prfile.path == p_path.resolve.return_value
+        assert prfile.stats == r_path.stat.return_value
 
     @patch('prsync.prfile.Path')
     def test_validate_invalid(self, m_Path, pr_file_class_setup):
