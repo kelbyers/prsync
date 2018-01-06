@@ -24,7 +24,6 @@ class PrFile:
     def validate(self) -> None:
         self.path = self.resolve()
 
-
     def get_block_size(self) -> None:
         if sys.platform == 'win32':
             conn = os_imports.wmi.WMI()
