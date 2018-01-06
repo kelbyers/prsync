@@ -24,9 +24,6 @@ class PrFile:
     def validate(self) -> None:
         self.path = self.resolve()
 
-    @property
-    def stats(self) -> os_imports.stat_result:
-        return self.path.stat()
 
     def get_block_size(self) -> None:
         if sys.platform == 'win32':
@@ -41,8 +38,8 @@ class PrFile:
         Return: boolean
         """
 
-        if self.stats.st_size == other.stats.st_size:
-            if self.stats.st_mtime_ns == other.stats.st_mtime_ns:
+        if self.path.stat().st_size == other.path.stat().st_size:
+            if self.path.stat().st_mtime_ns == other.path.stat().st_mtime_ns:
                 return True
 
         return False

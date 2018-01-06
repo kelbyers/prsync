@@ -1,6 +1,6 @@
 """Tests for prsync.PrFile."""
 
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import MagicMock, patch
 import pytest
 
 
@@ -99,10 +99,8 @@ class TestPrFile:
     def test_validate(self, pr_file_class_setup):
         prfile, file_path = pr_file_class_setup
         p_path = prfile.path
-        r_path = p_path.resolve.return_value
         prfile.validate()
         assert prfile.path == p_path.resolve.return_value
-        assert prfile.stats == r_path.stat.return_value
 
     def test_validate_invalid(self, pr_file_class_setup):
         prfile, file_path = pr_file_class_setup

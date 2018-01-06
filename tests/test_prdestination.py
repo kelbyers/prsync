@@ -20,17 +20,13 @@ class TestPrDestination:
         prdst = PrDestination(dst)
         assert isinstance(prdst, PrFile)
 
-    @patch('prsync.prfile.Path')
-    def test_validate(self, m_Path, prdst_class_setup):
+    def test_validate(self, prdst_class_setup):
         prdst, dst_path = prdst_class_setup
         p_path = prdst.path
-        r_path = p_path.resolve.return_value
         prdst.validate()
         assert prdst.path == p_path.resolve.return_value
-        assert prdst.stats == r_path.stat.return_value
 
-    @patch('prsync.prdestination.Path')
-    def test_validate_not_exist(self, m_Path, prdst_class_setup):
+    def test_validate_not_exist(self, prdst_class_setup):
         prdst, dst_path = prdst_class_setup
         p_path = prdst.path
         p_parent = p_path.parent
@@ -40,7 +36,6 @@ class TestPrDestination:
 
         prdst.validate()
         assert prdst.path == r_path
-        assert prdst.stats == r_path.stat.return_value
 
     def test_validate_parent_not_exist(self, prdst_class_setup):
         prdst, dst_path = prdst_class_setup
