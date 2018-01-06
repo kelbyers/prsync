@@ -5,6 +5,7 @@
 
 
 from prsync.prsource import PrSource
+from prsync.prdestination import PrDestination
 
 
 class PrSync:
@@ -19,4 +20,4 @@ class PrSync:
         self.source = PrSource(source)
 
     def init_destination(self, destination: str) -> None:
-        pass
+        self.destination = PrDestination(destination)

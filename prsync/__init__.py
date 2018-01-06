@@ -9,6 +9,7 @@ __version__ = '0.1.0'
 from prsync.exceptions import PrsyncSourceError
 from prsync.prfile import PrFile
 from prsync.prsource import PrSource
+from prsync.prdestination import PrDestination
 from prsync.prsync import PrSync
 
-__all__ = ['PrsyncSourceError', 'PrFile', 'PrSource', 'PrSync']
+__all__ = ['PrsyncSourceError', 'PrFile', 'PrSource', 'PrSync', 'PrDestination']
