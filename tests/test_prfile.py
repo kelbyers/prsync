@@ -1,6 +1,6 @@
 """Tests for prsync.PrFile."""
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, PropertyMock, patch
 import pytest
 
 
@@ -43,7 +43,7 @@ def pr_file_class_name(request):
 
 
 @pytest.fixture
-def pr_file_class_setup(pr_file_class_name):
+def pr_file_class_setup(pr_file_class_name='PrFile'):
     return make_pr_file_class(pr_file_class_name)
 
 
@@ -96,84 +96,75 @@ class TestPrFile:
 
         assert prfile.block_size == block_size
 
-    @patch('prsync.prfile.Path')
-    def test_validate(self, m_Path, pr_file_class_setup):
+    def test_validate(self, pr_file_class_setup):
         prfile, file_path = pr_file_class_setup
-        p_path = m_Path.return_value
+        p_path = prfile.path
         r_path = p_path.resolve.return_value
         prfile.validate()
         assert prfile.path == p_path.resolve.return_value
         assert prfile.stats == r_path.stat.return_value
 
-    @patch('prsync.prfile.Path')
-    def test_validate_invalid(self, m_Path, pr_file_class_setup):
-        pr_file, file_path = pr_file_class_setup
-        path_path = m_Path.return_value
+    def test_validate_invalid(self, pr_file_class_setup):
+        prfile, file_path = pr_file_class_setup
+        path_path = prfile.path
         path_path.resolve.side_effect = FileNotFoundError
 
         with pytest.raises(FileNotFoundError):
-            pr_file.validate()
+            prfile.validate()
 
-    @patch('prsync.prfile.Path')
-    def test_compare_equals(self, m_Path, pr_file_class_name):
+    def test_compare_equals(self, pr_file_class_name):
         first, _ = make_pr_file_class(pr_file_class_name)
         other, _ = make_pr_file_class(pr_file_class_name)
-        first.stats = MagicMock()
-        other.stats = first.stats
 
+        first.path.stat.return_value = other.path.stat.return_value
         eq = first == other
 
         assert eq
 
-    @patch('prsync.prfile.Path')
-    def test_compare_no_other_stats(self, m_Path, pr_file_class_name):
+    def test_compare_no_other_stats(self, pr_file_class_name):
         first, _ = make_pr_file_class(pr_file_class_name)
         other, _ = make_pr_file_class(pr_file_class_name)
-        first.stats = MagicMock()
-        other.stats = None
+        other.path.stat.side_effect = FileNotFoundError
 
-        with pytest.raises(AttributeError):
+        with pytest.raises(FileNotFoundError):
             first == other
 
-    @patch('prsync.prfile.Path')
-    def test_compare_no_stats(self, m_Path, pr_file_class_name):
+    def test_compare_no_stats(self, pr_file_class_name):
         first, _ = make_pr_file_class(pr_file_class_name)
         other, _ = make_pr_file_class(pr_file_class_name)
-        first.stats = None
+        first.path.stat.side_effect = \
+            other.path.stat.side_effect = FileNotFoundError
 
-        with pytest.raises(AttributeError):
+        with pytest.raises(FileNotFoundError):
             first == other
 
-    @patch('prsync.prfile.Path')
-    def test_compare_sizes(self, m_Path, pr_file_class_name, equals):
+    def test_compare_sizes(self, pr_file_class_name, equals):
         first, _ = make_pr_file_class(pr_file_class_name)
         other, _ = make_pr_file_class(pr_file_class_name)
-        first.stats = MagicMock()
-        other.stats = MagicMock()
-
-        first.stats.st_size.__eq__.return_value = equals
-        first.stats.st_mtime_ns.__eq__.return_value = True
+        f_stat = first.path.stat.return_value
+        o_stat = other.path.stat.return_value
+        f_stat.st_size.__eq__.return_value = equals
+        f_stat.st_mtime_ns.__eq__.return_value = True
 
         eq = first == other
 
-        assert eq is equals
-        first.stats.st_size.__eq__.assert_called_with(
-            other.stats.st_size,
+        f_stat.st_size.__eq__.assert_called_with(
+            o_stat.st_size,
         )
+        assert eq is equals
 
-    @patch('prsync.prfile.Path')
-    def test_compare_times(self, m_Path, pr_file_class_name, equals):
+    def test_compare_times(self, pr_file_class_name, equals):
         first, _ = make_pr_file_class(pr_file_class_name)
         other, _ = make_pr_file_class(pr_file_class_name)
-        first.stats = MagicMock()
-        other.stats = MagicMock()
+        f_stat = first.path.stat.return_value
+        o_stat = other.path.stat.return_value
 
-        first.stats.st_size.__eq__.return_value = True
-        first.stats.st_mtime_ns.__eq__.return_value = equals
+        f_stat.st_size.__eq__.return_value = True
+        f_stat.st_mtime_ns.__eq__.return_value = equals
 
         eq = first == other
 
         assert eq is equals
-        first.stats.st_mtime_ns.__eq__.assert_called_with(
-            other.stats.st_mtime_ns,
+        f_stat.st_mtime_ns.__eq__.assert_called_with(
+            o_stat.st_mtime_ns,
         )

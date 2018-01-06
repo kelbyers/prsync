@@ -18,9 +18,15 @@ class PrFile:
         self.validate()
         self.get_block_size()
 
+    def resolve(self) -> Path:
+        return self.path.resolve()
+
     def validate(self) -> None:
-        self.path = Path(self.path).resolve()
-        self.stats = self.path.stat()
+        self.path = self.resolve()
+
+    @property
+    def stats(self) -> os_imports.stat_result:
+        return self.path.stat()
 
     def get_block_size(self) -> None:
         if sys.platform == 'win32':
