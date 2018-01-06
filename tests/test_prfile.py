@@ -1,3 +1,5 @@
+"""Tests for prsync.PrFile."""
+
 from unittest.mock import MagicMock, patch
 import pytest
 
@@ -30,6 +32,9 @@ def make_pr_file_class(klass):
         return pr_file_setup()
     elif klass == 'PrSource':
         return pr_source_setup()
+    else:
+        print("Got {}".format(klass))
+        assert False
 
 
 @pytest.fixture(params=['PrFile', 'PrSource'])
@@ -102,7 +107,6 @@ class TestPrFile:
 
     @patch('prsync.prfile.Path')
     def test_validate_invalid(self, m_Path, pr_file_class_setup):
-        from prsync import PrsyncSourceError
         pr_file, file_path = pr_file_class_setup
         path_path = m_Path.return_value
         path_path.resolve.side_effect = FileNotFoundError
@@ -122,15 +126,6 @@ class TestPrFile:
         assert eq
 
     @patch('prsync.prfile.Path')
-    def test_compare_no_stats(self, m_Path, pr_file_class_name):
-        first, _ = make_pr_file_class(pr_file_class_name)
-        other, _ = make_pr_file_class(pr_file_class_name)
-        first.stats = None
-
-        with pytest.raises(AttributeError):
-            eq = first == other
-
-    @patch('prsync.prfile.Path')
     def test_compare_no_other_stats(self, m_Path, pr_file_class_name):
         first, _ = make_pr_file_class(pr_file_class_name)
         other, _ = make_pr_file_class(pr_file_class_name)
@@ -138,7 +133,16 @@ class TestPrFile:
         other.stats = None
 
         with pytest.raises(AttributeError):
-            eq = first == other
+            first == other
+
+    @patch('prsync.prfile.Path')
+    def test_compare_no_stats(self, m_Path, pr_file_class_name):
+        first, _ = make_pr_file_class(pr_file_class_name)
+        other, _ = make_pr_file_class(pr_file_class_name)
+        first.stats = None
+
+        with pytest.raises(AttributeError):
+            first == other
 
     @patch('prsync.prfile.Path')
     def test_compare_sizes(self, m_Path, pr_file_class_name, equals):
