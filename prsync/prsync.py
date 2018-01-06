@@ -15,6 +15,7 @@ class PrSync:
 
     def run(self) -> None:
         self.source.validate()
+        self.destination.validate()
 
     def init_source(self, source: str) -> None:
         self.source = PrSource(source)

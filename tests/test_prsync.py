@@ -33,7 +33,7 @@ class TestPrsync:
         m_init_source.assert_called_with(src)
         m_init_destination.assert_called_with(dst)
 
-    @patch('prsync.prsync.PrSync.init_destination')
+    @patch('prsync.prsync.PrDestination', autospec=True)
     @patch('prsync.prsync.PrSource', autospec=True)
     def test_init_source(self, m_PrSource, _):
         prsync, src, dst = prsync_setup()
@@ -41,8 +41,8 @@ class TestPrsync:
         assert prsync.source == pr_source
         m_PrSource.assert_called_with(src)
 
-    @patch('prsync.prsync.PrSync.init_destination')
-    @patch('prsync.prsync.PrSource')
+    @patch('prsync.prsync.PrDestination', autospec=True)
+    @patch('prsync.prsync.PrSource', autospec=True)
     def test_run_validates_source(self, m_PrSource, _):
         prsync, src, dst = prsync_setup()
         pr_source = m_PrSource.return_value
@@ -52,9 +52,19 @@ class TestPrsync:
         pr_source.validate.assert_called_with()
 
     @patch('prsync.prsync.PrDestination', autospec=True)
-    @patch('prsync.prsync.PrSync.init_source')
+    @patch('prsync.prsync.PrSource', autospec=True)
     def test_init_destination(self, _, m_PrDestination):
         prsync, src, dst = prsync_setup()
         pr_dest = m_PrDestination.return_value
         assert prsync.destination == pr_dest
         m_PrDestination.assert_called_with(dst)
+
+    @patch('prsync.prsync.PrDestination', autospec=True)
+    @patch('prsync.prsync.PrSource', autospec=True)
+    def test_run_validates_destination(self, _, m_PrDestination):
+        prsync, src, dst = prsync_setup()
+        pr_dest = m_PrDestination.return_value
+
+        prsync.run()
+
+        pr_dest.validate.assert_called_with()
